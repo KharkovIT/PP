@@ -1,0 +1,8 @@
+.example-container{
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  margin: 5%;
+  border: 1px black solid;
+  padding: 25px;
+}

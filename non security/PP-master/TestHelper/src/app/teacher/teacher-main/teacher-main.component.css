@@ -1,0 +1,26 @@
+mat-list{
+  margin-top: 100px;
+  margin-left: 10px;
+  width: 100px;
+}
+mat-list-item{
+  margin: 5px;
+
+}
+mat-card-subtitle{
+  margin-left: 20px;
+}
+mat-card{
+
+  width: 150px;
+  height: auto;
+}
+.header{
+  width: auto;
+  margin-bottom: 100px;
+}
+.example-header-image{
+  margin-top: 15px;
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

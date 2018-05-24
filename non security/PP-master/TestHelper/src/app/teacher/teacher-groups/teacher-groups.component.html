@@ -1,0 +1,68 @@
+<mat-card class="header">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>
+      <button mat-button [matMenuTriggerFor]="menu">{{user.firstName}} {{user.lastName}}</button>
+    </mat-card-title>
+    <mat-card-subtitle>{{user.position}}</mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
+
+
+<mat-menu #menu="matMenu" >
+  <button mat-menu-item >Редагувати профіль</button>
+  <button mat-menu-item (click)="logOut()">Вийти</button>
+</mat-menu>
+
+<div class="bar">
+  <mat-card>
+    <mat-list>
+      <mat-list-item>
+        <button mat-button routerLink="/main_teacher" routerLinkActive="true">Головна</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button routerLink="/teacher_groups" routerLinkActive="true">Групи</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button>Тесты</button>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>
+
+<div class="groups">
+  <mat-card >
+    <mat-list >
+      <mat-list-item>
+        <button class="add" mat-raised-button (click)="openDialog()" color="warn" >Додати</button>
+      </mat-list-item>
+    </mat-list>
+
+      <mat-list-item  *ngFor="let link of linkList">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>Група: {{link.name}}</mat-card-title>
+          </mat-card-header>
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Функції</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-card-actions (click)="getInfo(link)">
+                Переглянути
+              </mat-card-actions>
+            </button>
+            <button mat-menu-item>
+              <mat-card-actions (click)="delete(link)">
+                Видалити
+              </mat-card-actions>
+            </button>
+            <button mat-menu-item>
+              <mat-card-actions>
+               Редагувати
+              </mat-card-actions>
+            </button>
+          </mat-menu>
+        </mat-card>
+      </mat-list-item>
+
+  </mat-card>
+</div>

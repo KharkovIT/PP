@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-@Table(name = "template")
+@Table(name = "templates")
 @Entity
 @Data
 @AllArgsConstructor
@@ -21,7 +21,6 @@ import javax.validation.constraints.NotBlank;
 public class Template {
 
     @Id
-    @NotBlank
     @Column(name = "id_template")
     private int idTemplate;
 
@@ -31,7 +30,7 @@ public class Template {
     private String idTeacher;
 
     @NotBlank
-    private int questionNum;
+    private String questionNum;
     @NotBlank
     private String answer;
 
@@ -52,12 +51,13 @@ public class Template {
         this.idTeacher = idTeacher;
     }
 
-    public int getQuestionNum() {
+    public String getQuestionNum() {
         return questionNum;
     }
 
-    public void setQuestionNum(int questionNum) {
+    public void setQuestionNum(String questionNum) {
         this.questionNum = questionNum;
+
     }
 
     public String getAnswer() {

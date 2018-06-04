@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Table(name = "groups")
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @IdClass(Group.class)
-public class Group implements Serializable{
+public class Group implements Serializable {
 
     @Id
     @Column(name = "link")
@@ -28,7 +29,17 @@ public class Group implements Serializable{
     @NotBlank
     private String idStudent;
 
+    @Column(name = "enabled")
+    @NotNull
+    private boolean enabled;
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getLink() {
         return link;

@@ -9,11 +9,13 @@ public interface TemplateService {
 
     Template addTemplate(Template template);
 
-    void delete(long id);
+    void delete(Template template);
 
     Template getById(long id);
 
     Template editTemplate(Template template);
 
     List<Template> getAll();
+
+    List<Template> getAllByTeacherId(String id);
 }

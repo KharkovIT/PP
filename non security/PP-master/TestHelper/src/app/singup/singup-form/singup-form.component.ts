@@ -46,7 +46,7 @@ export class SingupFormComponent implements OnInit {
 
   singUp() {
     this.accountService.createAccount(this.user).subscribe(data => {
-       return this.router.navigate(['/login']);
+        return this.router.navigate(['/login']);
       }, err => {
         console.log(err);
         this.errorMessage = 'username already exist';

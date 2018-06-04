@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GroupInfoComponent } from './group-info.component';
+import {GroupInfoComponent} from './group-info.component';
 
 describe('GroupInfoComponent', () => {
   let component: GroupInfoComponent;
@@ -8,9 +8,9 @@ describe('GroupInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GroupInfoComponent ]
+      declarations: [GroupInfoComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -9,8 +9,8 @@
 </mat-card>
 
 
-<mat-menu #menu="matMenu" >
-  <button mat-menu-item >Редагувати профіль</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>Редагувати профіль</button>
   <button mat-menu-item (click)="logOut()">Вийти</button>
 </mat-menu>
 
@@ -24,45 +24,137 @@
         <button mat-button routerLink="/teacher_groups" routerLinkActive="true">Групи</button>
       </mat-list-item>
       <mat-list-item>
-        <button mat-button>Тесты</button>
+        <button mat-button routerLink="/teacher_test" routerLinkActive="true">Тесты</button>
       </mat-list-item>
     </mat-list>
   </mat-card>
 </div>
 
 <div class="groups">
-  <mat-card >
-    <mat-list >
-      <mat-list-item>
-        <button class="add" mat-raised-button (click)="openDialog()" color="warn" >Додати</button>
-      </mat-list-item>
-    </mat-list>
+  <mat-card class="groupCard">
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel class="groupExpansion" *ngFor="let group of linkList" (opened)="getStudents(group)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Група: {{group.name}}
+          </mat-panel-title>
+          <mat-panel-description>
+            link: {{group.link}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-      <mat-list-item  *ngFor="let link of linkList">
-        <mat-card class="example-card">
-          <mat-card-header>
-            <mat-card-title>Група: {{link.name}}</mat-card-title>
-          </mat-card-header>
-          <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Функції</button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-              <mat-card-actions (click)="getInfo(link)">
-                Переглянути
-              </mat-card-actions>
-            </button>
-            <button mat-menu-item>
-              <mat-card-actions (click)="delete(link)">
-                Видалити
-              </mat-card-actions>
-            </button>
-            <button mat-menu-item>
-              <mat-card-actions>
-               Редагувати
-              </mat-card-actions>
+        <mat-card-header class="headerTable">
+          Таблиця студентів
+        </mat-card-header>
+        <div class="mat-elevation-z8">
+
+          <mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="select">
+              <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </mat-header-cell>
+
+              <mat-cell *matCellDef="let row">
+                <mat-checkbox id="check" (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)">
+
+                </mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="idUser">
+              <mat-header-cell *matHeaderCellDef>Документ</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.idUser}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="firstName">
+              <mat-header-cell *matHeaderCellDef>Ім'я</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.firstName }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+              <mat-header-cell *matHeaderCellDef>Прізвище</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.lastName}}</mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"
+                     (click)="selection.toggle(row); addStudent(row);">
+            </mat-row>
+
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+
+        <div class="testActionPanel">
+          <mat-card-title class="TestPanel">
+            Тести групи
+          </mat-card-title>
+          <mat-form-field>
+            <mat-select placeholder="Оберіть тест" [(ngModel)]="selectedTest">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let test of testName" [value]="test">{{test.idTest}} {{test.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-button [matMenuTriggerFor]="features">Що зробити</button>
+          <mat-menu #features="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="selectedStudents">Перевірити у</button>
+            <button mat-menu-item>Результати групи</button>
+            <button mat-menu-item>Редагувати</button>
+            <button mat-menu-item (click)="deleteGroupTest()">Видалити</button>
+          </mat-menu>
+          <mat-menu #selectedStudents="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="setImg" *ngFor="let student of initialSelection">
+              {{student.firstName}} {{student.lastName}}
             </button>
           </mat-menu>
-        </mat-card>
-      </mat-list-item>
+          <mat-menu #setImg="matMenu">
+            <mat-card>
+              <mat-card-header>
+                Обрати відповіді
+              </mat-card-header>
+              <input mat-menu-item type="file" style="width: 120px" (change)="onFileSelected($event)">
+            </mat-card>
 
+          </mat-menu>
+          <mat-form-field class="linkTestToGroup">
+            <mat-select placeholder="Прикріпити тест до групи" [(ngModel)]="selectedTest">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let test of teacherTest" [value]="test">{{test.idTest}} {{test.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="addOldTest()">Додати</button>
+        </div>
+
+        <mat-expansion-panel class="test">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Створити новий тест
+            </mat-panel-title>
+            <mat-panel-description>
+              Створюйте нові та використовуйте старі шаблони. Створений тест буде приєднано до обраної групи
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <app-add-test></app-add-test>
+        </mat-expansion-panel>
+        <mat-action-row>
+          <button mat-button color="primary" (click)="delete(group)">Видалити групу</button>
+          <button mat-button color="warn" (click)="deleteStudents(group)">Видалити обраних студентів</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+    <button class="Addgroup" mat-button color="warn" (click)="openDialog()">Створити нову групу</button>
   </mat-card>
+
 </div>
+

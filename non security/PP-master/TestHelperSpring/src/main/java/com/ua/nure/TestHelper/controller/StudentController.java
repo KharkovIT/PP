@@ -22,10 +22,22 @@ public class StudentController {
     UserService userService;
 
     @CrossOrigin
-    @RequestMapping(value ="/getStudents", method = RequestMethod.POST,  consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getStudents(@RequestBody Link link) {
+    @RequestMapping(value ="/getStudents", method = RequestMethod.GET)
+    public List<User> getStudents(@RequestParam(name = "user")String idTeacher, @RequestParam(name = "link") String link) {
         try{
-           return userService.getAllByLink(link.getLink());
+           return userService.getAllActivatedStudent(idTeacher,link);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+
+    @CrossOrigin
+    @RequestMapping(value ="/getAllStudent", method = RequestMethod.GET)
+    public List<User> getAllStudents() {
+        try{
+            return userService.getStudents();
         }catch (Exception e){
             System.out.println(e);
         }

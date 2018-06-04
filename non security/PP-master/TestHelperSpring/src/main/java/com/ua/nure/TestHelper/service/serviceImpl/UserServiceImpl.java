@@ -61,6 +61,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAllStudentsByLink(link);
     }
 
+    @Override
+    public List<User> getAllActivatedStudent(String idTeacher, String link) {
+        return userRepository.getAllActivatedStudents(idTeacher,link);
+    }
+
+    @Override
+    public List<User> getStudents() {
+        return userRepository.getAllByPosition_Student();
+    }
+
+
     private List<SimpleGrantedAuthority> getAuthority() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }

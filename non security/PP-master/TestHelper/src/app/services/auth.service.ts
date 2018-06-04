@@ -22,7 +22,7 @@ export class AuthService {
 
     const headers = new Headers();
     headers.append('Accept', 'application/json');
-    const  pass = <string>Md5.hashStr(user.password);
+    const pass = <string>Md5.hashStr(user.password);
     const base64Credential: string = btoa(user.email + ':' + pass);
     headers.append('Authorization', 'Basic ' + base64Credential);
 
@@ -42,12 +42,11 @@ export class AuthService {
   }
 
 
-
   logOut() {
     // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        this.isLoggedIn = false;
-        this.router.navigate(['/']);
+    localStorage.removeItem('currentUser');
+    this.isLoggedIn = false;
+    this.router.navigate(['/']);
   }
 
 }

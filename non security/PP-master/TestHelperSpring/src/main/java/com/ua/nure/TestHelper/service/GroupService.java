@@ -1,6 +1,8 @@
 package com.ua.nure.TestHelper.service;
 
 import com.ua.nure.TestHelper.domain.Group;
+import com.ua.nure.TestHelper.domain.Link;
+import com.ua.nure.TestHelper.domain.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +17,14 @@ public interface GroupService {
 
     Group getByLink(String link);
 
-    Group editGroup(Group group);
+    void editGroup(String idTeacher, String link);
 
     List<Group> getAll();
+
+    void deleteStudentOfGroup(User users, Link link);
+
+    List<Group> getDisableGroup(String user);
+
+    void deleteByLinkAndId(String idStudent, String link);
+
 }

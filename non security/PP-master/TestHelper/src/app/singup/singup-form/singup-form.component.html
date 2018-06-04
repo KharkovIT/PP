@@ -30,7 +30,7 @@
                [(ngModel)]="user.idUser">
       </mat-form-field>
       <div>
-        <button  mat-button matStepperNext type="button">Далі</button>
+        <button mat-button matStepperNext type="button">Далі</button>
       </div>
     </form>
   </mat-step>
@@ -43,7 +43,7 @@
         <input matInput placeholder="Прізвище" [(ngModel)]="user.lastName" formControlName="lastName" required>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Ім'я" [(ngModel)]="user.firstName"  formControlName="firstName" required>
+        <input matInput placeholder="Ім'я" [(ngModel)]="user.firstName" formControlName="firstName" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Назад</button>
@@ -56,10 +56,11 @@
     <form [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Введіть дані для входу</ng-template>
       <mat-form-field>
-        <input matInput  placeholder="Email" [(ngModel)]="user.email" formControlName="email" required>
+        <input matInput placeholder="Email" [(ngModel)]="user.email" formControlName="email" required>
       </mat-form-field>
       <mat-form-field>
-        <input matInput type="password" placeholder="Password" [(ngModel)]="user.password"  formControlName="password" required>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="user.password" formControlName="password"
+               required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Назад</button>
@@ -76,7 +77,7 @@
         <mat-radio-button class="input" value="TEACHER">Вчитель</mat-radio-button>
       </mat-radio-group>
       <mat-form-field>
-        <input matInput placeholder="Учбовий заклад" [(ngModel)]="user.activity"  formControlName="activity" required>
+        <input matInput placeholder="Учбовий заклад" [(ngModel)]="user.activity" formControlName="activity" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Назад</button>

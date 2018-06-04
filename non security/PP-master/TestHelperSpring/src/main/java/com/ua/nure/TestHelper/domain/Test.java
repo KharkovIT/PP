@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Table(name = "tests")
@@ -20,13 +21,13 @@ public class Test implements Serializable {
 
     @Id
     @Column(name = "id_test")
-    @NotBlank
-    private int idTest;
+    @NotNull
+    private long idTest;
 
     @Id
-    @NotBlank
+    @NotNull
     @Column(name = "id_template")
-    private int idTemplate;
+    private long idTemplate;
 
     @NotBlank
     @Column(name = "name")
@@ -41,19 +42,19 @@ public class Test implements Serializable {
         return this;
     }
 
-    public int getIdTest() {
+    public long getIdTest() {
         return idTest;
     }
 
-    public void setIdTest(int idTest) {
+    public void setIdTest(long idTest) {
         this.idTest = idTest;
     }
 
-    public int getIdTemplate() {
+    public long getIdTemplate() {
         return idTemplate;
     }
 
-    public void setIdTemplate(int idTemplate) {
+    public void setIdTemplate(long idTemplate) {
         this.idTemplate = idTemplate;
     }
 }

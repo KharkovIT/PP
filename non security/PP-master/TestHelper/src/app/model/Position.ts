@@ -1,3 +1,3 @@
-export enum Position{
-  STUDENT,TEACHER
+export enum Position {
+  STUDENT, TEACHER
 }

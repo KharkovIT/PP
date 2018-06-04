@@ -34,7 +34,7 @@ export class LoginFormComponent implements OnInit {
 
         }, err => {
           this.errorMessage = 'error :  Username or password is incorrect';
-        this.openSnackBar();
+          this.openSnackBar();
         }
       );
   }
@@ -51,7 +51,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   openSnackBar() {
-    this.snackBar.open('Логін або пароль не вірні', 'Спробувати ще',{
+    this.snackBar.open('Логін або пароль не вірні', 'Спробувати ще', {
       duration: 2000,
     });
   }

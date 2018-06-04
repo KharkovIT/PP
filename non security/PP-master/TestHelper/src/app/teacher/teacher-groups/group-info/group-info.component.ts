@@ -12,15 +12,14 @@ export class GroupInfoComponent implements OnInit {
   students: User[];
   linkInfo: Link;
 
-  constructor(private linkService: LinkService) {
+  constructor(private linkService: LinkService, link: Link) {
   }
+
 
   ngOnInit() {
+
   }
 
-  getStudent(link: Link) {
-    this.linkService.getStudents(link).subscribe(data => this.students = data);
-  }
 
   getInfo(link: Link) {
     this.linkService.getGroupInfo(link).subscribe(data => this.linkInfo = data);

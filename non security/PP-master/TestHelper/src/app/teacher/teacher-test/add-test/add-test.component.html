@@ -1,0 +1,57 @@
+<body>
+<div class="template">
+  <mat-card-subtitle>Перелік готових шаблонів відповідей</mat-card-subtitle>
+
+
+  <form [formGroup]="stateForm">
+    <mat-form-field>
+      <input type="text" matInput placeholder="States Group" formControlName="stateGroup" required
+             [matAutocomplete]="autoGroup"/>
+      <mat-autocomplete #autoGroup="matAutocomplete">
+        <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.letter">
+          <mat-option *ngFor="let name of group.names" [value]="name">
+            {{ name }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+
+  <div class="addTemplate">
+    <form class="example-form-field">
+      <mat-card-subtitle>Додати шаблон відповіді</mat-card-subtitle>
+      <mat-form-field class="example-full-width">
+        <input type="tel" [formControl]="NumberFormControl" matInput placeholder="Номер питання"
+               [(ngModel)]="newTemplate.questionNum">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input type="tel" [formControl]="AnswerFormControl" matInput [textMask]="{mask: maskAnswer}"
+               placeholder="Відповідь" [(ngModel)]="newTemplate.answer">
+      </mat-form-field>
+      <button mat-raised-button="warn" type="submit" (click)="addTemplate()">Додати</button>
+    </form>
+  </div>
+</div>
+
+
+<div class="CreateTest">
+  <form class="example-form-field">
+    <mat-form-field class="inputName">
+      <input matInput placeholder="Назва Тесту" [formControl]="NameFormControl"
+             [errorStateMatcher]="matcher">
+      <mat-error *ngIf="!NameFormControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="NameFormControl.hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button>Створити</button>
+  </form>
+
+
+</div>
+
+
+</body>

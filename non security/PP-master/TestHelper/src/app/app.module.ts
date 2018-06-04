@@ -3,10 +3,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TextMaskModule} from 'angular2-text-mask';
 import {NgModule} from '@angular/core';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule,
-  MatListModule, MatMenuModule, MatNativeDateModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatStepperModule, MatTabsModule,
-  MatToolbarModule, MatDialogModule
+  MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatDividerModule, MatExpansionModule,
+  MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatRadioModule,
+  MatSelectModule, MatSnackBarModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule,
 } from '@angular/material';
+
 
 import {AppComponent} from './app.component';
 
@@ -34,41 +35,62 @@ import {RoleGuard} from '../guard/role.guard';
 import {TeacherGroupsComponent} from './teacher/teacher-groups/teacher-groups.component';
 import {GroupsService} from './services/groups.service';
 import {Group} from './model/Group';
-import { AddGroupComponent } from './teacher/teacher-groups/add-group/add-group.component';
+import {AddGroupComponent} from './teacher/teacher-groups/add-group/add-group.component';
 import {LinkService} from './services/link.service';
 import {Link} from './model/Link';
 import {UUID} from 'angular2-uuid';
-import { GroupInfoComponent } from './teacher/teacher-groups/group-info/group-info.component';
-
-
+import {GroupInfoComponent} from './teacher/teacher-groups/group-info/group-info.component';
+import {TeacherTestComponent} from './teacher/teacher-test/teacher-test.component';
+import {AddTestComponent} from './teacher/teacher-test/add-test/add-test.component';
+import {TemplateService} from './services/template.service';
+import {Template} from './model/Template';
+import {Test4GroupService} from './services/test4-group.service';
+import {TestService} from './services/test.service';
+import {UploadService} from './services/upload.service';
+import {AddToGroupComponent} from './student/add-to-group/add-to-group.component';
+import {UserService} from './services/user.service';
 
 const appRoutes: Routes = [
-  {path: '', component: MainComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'singup', component: SingupComponent},
-  {
-    path: 'main_student', component: StudentMainComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      expectedRole: 'STUDENT'
-    }
-  },
-  {
-    path: 'main_teacher', component: TeacherMainComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      expectedRole: 'TEACHER'
-    }
-  },
-  {
-    path: 'teacher_groups', component: TeacherGroupsComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      expectedRole: 'TEACHER'
-    }
-  },
+    {path: '', component: MainComponent},
+    {path: 'login', component: LoginComponent},
+    {path: 'singup', component: SingupComponent},
+    {
+      path: 'main_student', component: StudentMainComponent,
+      canActivate: [AuthGuard, RoleGuard],
+      data: {
+        expectedRole: 'STUDENT'
+      }
+    },
+    {
+      path: 'main_teacher', component: TeacherMainComponent,
+      canActivate: [AuthGuard, RoleGuard],
+      data: {
+        expectedRole: 'TEACHER'
+      }
+    },
+    {
+      path: 'teacher_groups', component: TeacherGroupsComponent,
+      canActivate: [AuthGuard, RoleGuard],
+      data: {
+        expectedRole: 'TEACHER'
+      }
+    },
     {
       path: 'teacher_groups/add_group', component: AddGroupComponent,
+      canActivate: [AuthGuard, RoleGuard],
+      data: {
+        expectedRole: 'TEACHER'
+      }
+    },
+    {
+      path: 'teacher_test', component: TeacherTestComponent,
+      canActivate: [AuthGuard, RoleGuard],
+      data: {
+        expectedRole: 'TEACHER'
+      }
+    },
+    {
+      path: 'group_info', component: GroupInfoComponent,
       canActivate: [AuthGuard, RoleGuard],
       data: {
         expectedRole: 'TEACHER'
@@ -76,8 +98,7 @@ const appRoutes: Routes = [
     }
 
 
-
-]
+  ]
 ;
 
 
@@ -95,7 +116,10 @@ const appRoutes: Routes = [
     StudentMainComponent,
     TeacherGroupsComponent,
     AddGroupComponent,
-    GroupInfoComponent
+    GroupInfoComponent,
+    TeacherTestComponent,
+    AddTestComponent,
+    AddToGroupComponent
   ],
   imports: [
     BrowserModule,
@@ -103,9 +127,12 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatCheckboxModule,
     TooltipModule,
+    MatPaginatorModule,
     MatToolbarModule,
     MatIconModule,
     MatRadioModule,
+    MatExpansionModule,
+    MatTableModule,
     MatCardModule,
     MatTabsModule,
     MatListModule,
@@ -113,17 +140,21 @@ const appRoutes: Routes = [
     MatDividerModule,
     MatFormFieldModule,
     BrowserModule,
+
     MatSnackBarModule,
     MatMenuModule,
     BrowserAnimationsModule,
     FormsModule,
     TextMaskModule,
     MatDialogModule,
+
     HttpModule,
     HttpClientModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatAutocompleteModule,
+
     MatSelectModule,
     MatInputModule,
     MatStepperModule,
@@ -131,7 +162,8 @@ const appRoutes: Routes = [
       appRoutes,
       {enableTracing: true}),
   ],
-  providers: [HttpClientModule, TeacherGroupsComponent, GroupInfoComponent, AccountService, AuthService, AuthGuard, User, Link, RoleGuard, LinkService, GroupsService, Group, UUID, Headers],
+  entryComponents: [AddToGroupComponent],
+  providers: [HttpClientModule, UserService, UploadService, TestService, Test4GroupService, TemplateService, Template, TeacherGroupsComponent, GroupInfoComponent, AccountService, AuthService, AuthGuard, User, Link, RoleGuard, LinkService, GroupsService, Group, UUID, Headers],
   bootstrap: [AppComponent]
 })
 export class AppModule {

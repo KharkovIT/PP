@@ -24,4 +24,9 @@ public interface UserService {
 
     List<User> getAllByLink(String link);
 
+    List<User> getAllActivatedStudent(String idTeacher, String link);
+
+    //void delete(List<User> user);
+    List<User> getStudents();
+
 }

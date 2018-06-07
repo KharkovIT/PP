@@ -5,6 +5,7 @@ import {TemplateService} from '../../../services/template.service';
 import {User} from '../../../model/User';
 import {TestService} from '../../../services/test.service';
 import {UUID} from 'angular2-uuid';
+import {MatSnackBar} from '@angular/material';
 
 export interface StateGroup {
   letter: string;
@@ -30,7 +31,8 @@ export class AddTestComponent implements OnInit {
               private user: User,
               public newTemplate: Template,
               private fb: FormBuilder,
-              private testService: TestService) {
+              private testService: TestService,
+              private snackBar: MatSnackBar) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
@@ -63,6 +65,15 @@ export class AddTestComponent implements OnInit {
     this.selectedTemplates.push(this.selectedTemplate[this.selectedTemplate.length - 1]);
   }
 
+  deleteSelectedTemplate() {
+    for (const template of this.selectedTemplates) {
+      if (this.selectedTemplateToDel.questionNum === template.questionNum && template.answer === this.selectedTemplateToDel.answer) {
+        this.selectedTemplates.splice(this.templates.indexOf(template), 1);
+        this.templates.push(template);
+      }
+    }
+  }
+
   deleteTemplate() {
     console.log(this.selectedTemplateToDel);
     this.templService.deleteTemplate(this.selectedTemplateToDel).subscribe(data => this.getTemplates());
@@ -86,6 +97,9 @@ export class AddTestComponent implements OnInit {
     for (const template of this.selectedTemplates) {
       this.testService.addTest(idTest, this.enterName, template).subscribe(data => {
         console.log(data);
+        this.snackBar.open('Тест додано', '', {
+          duration: 3000
+        });
       });
     }
 

@@ -7,7 +7,7 @@
     <mat-expansion-panel-header>Створюйте тести</mat-expansion-panel-header>
     <div class="templates">
       <mat-form-field>
-        <mat-select placeholder="Правильні відповіді" multiple (selectionChange)="replaceTemplate()"
+        <mat-select placeholder="Оберіть правильні відповіді" multiple (selectionChange)="replaceTemplate()"
                     [(ngModel)]="selectedTemplate">
           <mat-select-trigger>
             {{toppings.value ? toppings.value[0].questionNum + toppings.value[0].answer : ''}}
@@ -34,6 +34,17 @@
       </mat-form-field>
       <button mat-raised-button (click)="addTest()">Створити</button>
     </form>
+<mat-card style="background-color: beige">
+  <mat-form-field>
+    <mat-select placeholder="Ваші додані правильні варіанти" [(ngModel)]="selectedTemplateToDel">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let state of selectedTemplates" [value]="state" >{{state.questionNum}} {{state.answer}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+<button mat-raised-button (click)="deleteSelectedTemplate()">Видалити обраний варіант</button>
+</mat-card>
+
+
   </mat-expansion-panel>
 
 </mat-accordion>

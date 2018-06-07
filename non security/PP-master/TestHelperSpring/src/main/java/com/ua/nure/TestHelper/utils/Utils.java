@@ -48,7 +48,7 @@ public class Utils {
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost("https://salty-retreat-16089.herokuapp.com/https://gateway.watsonplatform.net/visual-recognition/api/v3/classify?version=2018-03-19");
-        String token = "apikey:WNwTrJi8LPcCt1EgFtUuvFpSOt6u_iFHeyjF7E5EfQX1";
+        String token = "apikey:T_xWLaWa5FUlmzuDZfjiengN7rwVwTNmbQMGaYOloGcX";
         String apiKey = new String(new Base64().encode(token.getBytes()));
 
         httppost.addHeader(HttpHeaders.ACCEPT, "application/json");
@@ -60,7 +60,7 @@ public class Utils {
 
         FileBody image = new FileBody(file);
         MultipartEntity reqEntity = new MultipartEntity();
-        reqEntity.addPart("classifier_ids", new StringBody("DefaultCustomModel_736037283"));
+        reqEntity.addPart("classifier_ids", new StringBody("DefaultCustomModel_254176265"));
         reqEntity.addPart("images_file", image);
 
         httppost.setEntity(reqEntity);

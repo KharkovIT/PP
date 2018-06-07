@@ -202,9 +202,14 @@ export class TeacherGroupsComponent implements OnInit {
           });
           this.activate = false;
           console.log(this.Result);
-        } else {
+        } else if (data === 'CONFLICT') {
           this.activate = false;
           this.snackBar.open('Ця людина вже писала цей тест', 'Хмм.', {
+            duration: 3000
+          });
+        } else {
+          this.activate = false;
+          this.snackBar.open('Проблеми з нейронною мережею', '401', {
             duration: 3000
           });
         }

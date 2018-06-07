@@ -51,7 +51,7 @@ public class CheckAnswerController {
 
                     for (StudentsAnswer answer : studentsAnswers) {
                         if (answer == null) {
-                            System.out.println("Answer is null " + Objects.requireNonNull(answer).toString());
+                            System.out.println("Answer is null " );
                             Result NullResult = new Result();
                             NullResult.setIdTest(test);
                             System.out.println("Result : IdTest = " + NullResult.getIdTest());
@@ -94,7 +94,7 @@ public class CheckAnswerController {
 
                 }
             } catch (Exception ex) {
-                return HttpStatus.CONFLICT;
+                return HttpStatus.BAD_REQUEST;
             }
             return HttpStatus.ACCEPTED;
         }

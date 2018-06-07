@@ -22,7 +22,7 @@ public class Template {
 
     @Id
     @Column(name = "id_template")
-    private int idTemplate;
+    private long idTemplate;
 
 
     @NotBlank
@@ -35,11 +35,11 @@ public class Template {
     private String answer;
 
 
-    public int getIdTemplate() {
+    public long getIdTemplate() {
         return idTemplate;
     }
 
-    public void setIdTemplate(int idTemplate) {
+    public void setIdTemplate(long idTemplate) {
         this.idTemplate = idTemplate;
     }
 

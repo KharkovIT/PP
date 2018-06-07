@@ -12,7 +12,7 @@ public interface TestService {
 
     void delete(long id);
 
-    List<Test> getById(long test);
+    List<Test> getById(String test);
 
     Test editTest(Test test);
 
@@ -21,5 +21,7 @@ public interface TestService {
     List<Test> getAllByTeacher(String idTeacher);
 
     List<Test> getAllbyTeacherNotIn(String idGroup, String id_teacher);
+
+    Test getByIdTest(String idTEst);
 
 }

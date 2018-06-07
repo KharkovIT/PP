@@ -45,4 +45,15 @@ public class TemplateController {
     }
 
 
+    @CrossOrigin
+    @RequestMapping(value ="/deleteTemplate", method = RequestMethod.POST,  consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteTempl(@RequestBody Template template) {
+        try{
+            templateService.delete(template);
+        }catch (NullPointerException e){
+            System.out.println("no no no");
+        }
+
+    }
+
 }

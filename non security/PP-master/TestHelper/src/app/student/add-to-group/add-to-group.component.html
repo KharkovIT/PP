@@ -3,7 +3,7 @@
     <mat-form-field class="example-full-width">
       <input matInput placeholder="link: 9d35c61f-f68b-8044-56ee-11d029877842" [formControl]="studentToGroup"
              [errorStateMatcher]="matcher" [(ngModel)]="link" (blur)="searchLink()">
-      <mat-hint>Errors appear instantly!</mat-hint>
+
       <mat-error *ngIf="studentToGroup.hasError('length')">
         Please enter a valid link address
       </mat-error>
@@ -11,12 +11,12 @@
         Link is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-    <button mat-raised-button color="warn" (click)="addToGroup()">Долучитись до групи</button>
+    <button mat-raised-button color="warn" class="addButton" (click)="addToGroup()">Долучитись до групи</button>
     <mat-divider></mat-divider>
-    <mat-list *ngIf="!isValid">
+    <mat-list *ngIf="!isValid" class="advise">
       <mat-list-item>{{group}}</mat-list-item>
     </mat-list>
-    <mat-list  *ngIf="isValid">
+    <mat-list  *ngIf="isValid" class="advise">
       <mat-list-item>Група: {{group}}, правильно?</mat-list-item>
     </mat-list>
   </form>

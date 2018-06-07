@@ -10,11 +10,18 @@ public interface ResultService {
 
     Result addResult(Result result);
 
-    void delete(long id);
+    void delete(Result id);
 
     Result getById(long id);
 
     Result editResult(Result result);
 
     List<Result> getAll();
+
+    List<Result> getAllByIdStudent(String id);
+
+    List<String> getIdTestbyIdStudent(String id);
+
+    List<Result> getAllByStudentAndTest(String idStudent, String IdTest);
+
 }

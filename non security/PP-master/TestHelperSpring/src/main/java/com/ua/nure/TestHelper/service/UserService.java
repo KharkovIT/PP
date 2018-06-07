@@ -12,7 +12,7 @@ public interface UserService {
 
     void delete(long id);
 
-    User getById(long id);
+    User getById(String id);
 
     User editUser(User user);
 

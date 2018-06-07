@@ -5,7 +5,8 @@
 
 .example-header-image {
   margin-top: 15px;
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-image:  url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+ /*background-image: url("material-icons md-dark");*/
   background-size: cover;
 }
 

@@ -49,3 +49,16 @@ mat-cell {
 mat-header-cell {
   overflow: visible;
 }
+.templates{
+  display: flex;
+  flex-direction: row;
+}
+.deleteTemplate{
+  margin-left: 20%;
+}
+.deleteTemplateButton{
+  margin-left: 50px;
+}
+.example-form-field{
+  width: 100%;
+}

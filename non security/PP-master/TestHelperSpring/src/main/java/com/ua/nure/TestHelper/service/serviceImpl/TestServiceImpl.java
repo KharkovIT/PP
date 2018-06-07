@@ -28,7 +28,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public List<Test> getById(long idTest) {
+    public List<Test> getById(String idTest) {
         return testRepository.getAllByIdTest(idTest);
     }
 
@@ -50,5 +50,10 @@ public class TestServiceImpl implements TestService {
     @Override
     public List<Test> getAllbyTeacherNotIn(String idGroup, String id_teacher) {
         return testRepository.getAllTestTeacherNotInTheGroup(idGroup,id_teacher);
+    }
+
+    @Override
+    public Test getByIdTest(String idTEst) {
+        return testRepository.getByIdTest(idTEst);
     }
 }

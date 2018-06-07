@@ -1,5 +1,5 @@
 export class Test {
-  public idTest: number;
+  public idTest: string;
   public idTemplate: number;
   public name: string;
 

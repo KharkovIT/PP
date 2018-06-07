@@ -47,7 +47,8 @@ public class Test4GroupController {
     public void getTest(@RequestParam("idGroup") String idGroup, @RequestParam("idTest") String idTest) {
         try {
              Test4Group deleteTest = new Test4Group();
-             deleteTest.setIdTest(Integer.parseInt(idTest));
+           //  deleteTest.setIdTest(Integer.parseInt(idTest));
+            deleteTest.setIdTest(idTest);
              deleteTest.setIdGroup(idGroup);
              test4GroupService.delete(deleteTest);
         } catch (NullPointerException e) {

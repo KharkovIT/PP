@@ -7,7 +7,6 @@ import com.ua.nure.TestHelper.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,7 @@ public class AccountController {
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createUser(@RequestBody User newUser) {
-        if (userService.getUserByLogin(newUser.getUsername()) != null) {
+        if (userService.getById(newUser.getIdUser()) != null) {
             logger.error("username Already exist " + newUser.getUsername());
             return new ResponseEntity<>(
                     new CustomErrorType("user with username " + newUser.getUsername() + "already exist "),
@@ -52,6 +51,13 @@ public class AccountController {
         return principal;
     }
 
-
+    @CrossOrigin
+    @RequestMapping(value = "/editProfile", method = RequestMethod.POST)
+    public HttpStatus editUser(@RequestBody User editedUSer) {
+        System.out.println(editedUSer);
+        editedUSer.setPassword(DigestUtils.md5DigestAsHex(editedUSer.getPassword().getBytes()));
+        userService.addUser(editedUSer);
+        return HttpStatus.ACCEPTED;
+    }
 
 }

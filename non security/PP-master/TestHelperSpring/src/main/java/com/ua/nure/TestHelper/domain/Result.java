@@ -23,10 +23,9 @@ public class Result implements Serializable{
     private String idStudent;
     @Id
     @Column(name = "id_test")
-    @NotBlank
-    private int idTest;
+    private String idTest;
 
-
+    @Id
     @Column(name = "id_template")
     private int idTemplate;
 
@@ -59,14 +58,11 @@ public class Result implements Serializable{
         this.idStudent = idStudent;
     }
 
-    public int getIdTest() {
+    public String getIdTest() {
         return idTest;
     }
 
-    public void setIdTest(int idTest) {
+    public void setIdTest(String idTest) {
         this.idTest = idTest;
     }
-
-
-
 }

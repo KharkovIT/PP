@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {User} from '../model/User';
 import {AppComponent} from '../app.component';
 import {Template} from '../model/Template';
@@ -25,6 +25,13 @@ export class TemplateService {
     httpHeaders.append('Content-Type', 'application/json');
     const options = {headers: httpHeaders};
     return this.http.post(AppComponent.API_URL + '/templates/getTemplates', user, options);
+  }
+
+  deleteTemplate(template: Template): Observable<any> {
+    const httpHeaders: HttpHeaders = new HttpHeaders();
+    httpHeaders.append('Content-Type', 'application/json');
+    const options = {headers: httpHeaders};
+    return this.http.post(AppComponent.API_URL + '/templates/deleteTemplate', template, options);
   }
 
 }

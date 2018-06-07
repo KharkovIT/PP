@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from '../../model/User';
 import {AuthService} from '../../services/auth.service';
-import {MatDialog, MatPaginator} from '@angular/material';
+import {MatDialog, MatPaginator, MatSnackBar} from '@angular/material';
 import {AddGroupComponent} from './add-group/add-group.component';
 import {LinkService} from '../../services/link.service';
 import {Link} from '../../model/Link';
@@ -13,6 +13,8 @@ import {Test4GroupService} from '../../services/test4-group.service';
 import {Test} from '../../model/Test';
 import {TestService} from '../../services/test.service';
 import {UploadService} from '../../services/upload.service';
+import {EditProfileComponent} from '../../edit-profile/edit-profile.component';
+import {AddTestComponent} from '../teacher-test/add-test/add-test.component';
 
 
 @Component({
@@ -38,9 +40,10 @@ export class TeacherGroupsComponent implements OnInit {
   selectedFile: File = null;
   Result: string[];
   selectedStudent: User;
-
+  activate = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  panelOpenState = false;
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddGroupComponent, {
@@ -62,17 +65,26 @@ export class TeacherGroupsComponent implements OnInit {
               private groupService: GroupsService,
               private test4group: Test4GroupService,
               private testService: TestService,
-              private uploadService: UploadService) {
+              private uploadService: UploadService,
+              private snackBar: MatSnackBar) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
+  }
+
+
+  editProfile(): void {
+    this.dialog.open(EditProfileComponent, {
+      width: '350px',
+      data: {user: this.user = JSON.parse(localStorage.getItem('currentUser'))}
+    });
   }
 
   ngOnInit() {
     this.getGroups();
   }
 
-  getStudentsArray(user: User , link: Link) {
-    this.linkService.getStudents(user.idUser , link.link).subscribe(data => this.students = data);
+  getStudentsArray(user: User, link: Link) {
+    this.linkService.getStudents(user.idUser, link.link).subscribe(data => this.students = data);
   }
 
   getGroups() {
@@ -109,7 +121,7 @@ export class TeacherGroupsComponent implements OnInit {
   getStudents(link: Link) {
     this.selectGroup = link.link;
     this.getAllTestTeacher(this.user, this.selectGroup);
-    this.getStudentsArray(this.user , link);
+    this.getStudentsArray(this.user, link);
     this.dataSource = new StudentsDataSource(link, this.linkService, this.user);
     this.dataSource.paginator = this.paginator;
     this.dataSource.connect();
@@ -180,19 +192,44 @@ export class TeacherGroupsComponent implements OnInit {
   }
 
   onFileSelected(event) {
+    this.activate = true;
     this.selectedFile = <File>event.target.files[0];
-    this.uploadService.upload(this.selectedFile).subscribe(data => {
+    this.uploadService.upload(this.selectedFile, this.selectedStudent, this.selectedTest).subscribe(data => {
         this.Result = data;
-        console.log(this.Result);
+        if (data === 'ACCEPTED') {
+          this.snackBar.open('Тест перевірено', 'Ура', {
+            duration: 3000
+          });
+          this.activate = false;
+          console.log(this.Result);
+        } else {
+          this.activate = false;
+          this.snackBar.open('Ця людина вже писала цей тест', 'Хмм.', {
+            duration: 3000
+          });
+        }
       }
     );
+  }
+
+
+  saveStudent(student: User) {
+    this.selectedStudent = student;
+  }
+
+
+  openTestWindow() {
+    this.dialog.open(AddTestComponent, {
+      width: '550px',
+      data: {user: this.user = JSON.parse(localStorage.getItem('currentUser'))}
+    });
   }
 }
 
 export class StudentsDataSource extends DataSource<any> {
 
   connect(): Observable<User[]> {
-    return this.linkService.getStudents(this.user.idUser , this.link.link);
+    return this.linkService.getStudents(this.user.idUser, this.link.link);
   }
 
   constructor(private link: Link, private linkService: LinkService, private user: User) {

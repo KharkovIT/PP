@@ -1,11 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TextMaskModule} from 'angular2-text-mask';
-import {NgModule} from '@angular/core';
+import {ChangeDetectorRef, NgModule} from '@angular/core';
 import {
   MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatDividerModule, MatExpansionModule,
-  MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatRadioModule,
-  MatSelectModule, MatSnackBarModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule,
+  MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule,
+  MatProgressBarModule, MatRadioModule,
+  MatSelectModule, MatSnackBarModule, MatStepper, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule,
 } from '@angular/material';
 
 
@@ -49,6 +50,9 @@ import {TestService} from './services/test.service';
 import {UploadService} from './services/upload.service';
 import {AddToGroupComponent} from './student/add-to-group/add-to-group.component';
 import {UserService} from './services/user.service';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ResultTestComponent } from './student/result-test/result-test.component';
+import {ResultService} from './services/result.service';
 
 const appRoutes: Routes = [
     {path: '', component: MainComponent},
@@ -119,7 +123,9 @@ const appRoutes: Routes = [
     GroupInfoComponent,
     TeacherTestComponent,
     AddTestComponent,
-    AddToGroupComponent
+    AddToGroupComponent,
+    EditProfileComponent,
+    ResultTestComponent
   ],
   imports: [
     BrowserModule,
@@ -140,7 +146,7 @@ const appRoutes: Routes = [
     MatDividerModule,
     MatFormFieldModule,
     BrowserModule,
-
+    MatTooltipModule,
     MatSnackBarModule,
     MatMenuModule,
     BrowserAnimationsModule,
@@ -154,7 +160,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     MatButtonModule,
     MatAutocompleteModule,
-
+    MatProgressBarModule,
     MatSelectModule,
     MatInputModule,
     MatStepperModule,
@@ -162,8 +168,8 @@ const appRoutes: Routes = [
       appRoutes,
       {enableTracing: true}),
   ],
-  entryComponents: [AddToGroupComponent],
-  providers: [HttpClientModule, UserService, UploadService, TestService, Test4GroupService, TemplateService, Template, TeacherGroupsComponent, GroupInfoComponent, AccountService, AuthService, AuthGuard, User, Link, RoleGuard, LinkService, GroupsService, Group, UUID, Headers],
+  entryComponents: [AddToGroupComponent, EditProfileComponent, AddTestComponent, ResultTestComponent],
+  providers: [HttpClientModule,  ResultService, UserService, UploadService, TestService, Test4GroupService, TemplateService, Template, TeacherGroupsComponent, GroupInfoComponent, AccountService, AuthService, AuthGuard, User, Link, RoleGuard, LinkService, GroupsService, Group, UUID, Headers],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -22,7 +22,7 @@ public class Test implements Serializable {
     @Id
     @Column(name = "id_test")
     @NotNull
-    private long idTest;
+    private String idTest;
 
     @Id
     @NotNull
@@ -42,11 +42,11 @@ public class Test implements Serializable {
         return this;
     }
 
-    public long getIdTest() {
+    public String getIdTest() {
         return idTest;
     }
 
-    public void setIdTest(long idTest) {
+    public void setIdTest(String idTest) {
         this.idTest = idTest;
     }
 

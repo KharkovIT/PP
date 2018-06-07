@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECt id_user, firstName, lastName,activity, email, password, position  FROM users, groups WHERE groups.enabled = 1 AND groups.link in (select link FROM links WHERE id_teacher = ?1 and link = ?2) AND groups.id_student = users.id_user;", nativeQuery = true)
     List<User> getAllActivatedStudents(String idTeacher, String link);
+
+    User getByIdUser(String idUser);
 }

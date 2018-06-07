@@ -4,6 +4,8 @@ import {AuthService} from '../../services/auth.service';
 import {GroupsService} from '../../services/groups.service';
 import {UserService} from '../../services/user.service';
 import {LinkService} from '../../services/link.service';
+import {MatDialog} from '@angular/material';
+import {EditProfileComponent} from '../../edit-profile/edit-profile.component';
 
 @Component({
   selector: 'app-teacher-main',
@@ -13,18 +15,27 @@ import {LinkService} from '../../services/link.service';
 export class TeacherMainComponent implements OnInit {
 
   disableGroups: Array<DataDisabledUser>;
+  emptyMessage: string;
 
-  // students = [];
-  //  added: DataDisabledUser;
-  // disabledData = [];
-
-  constructor(private user: User, private authService: AuthService, private groupService: GroupsService, private userService: UserService, private linkService: LinkService) {
+  constructor(private user: User, private authService: AuthService,
+              private groupService: GroupsService,
+              private userService: UserService,
+              private linkService: LinkService,
+              public dialog: MatDialog) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   ngOnInit() {
     this.getAllDisableStudents(this.user);
   }
+
+  editProfile(): void {
+     this.dialog.open(EditProfileComponent, {
+      width: '350px',
+      data: { user: this.user }
+    });
+  }
+
 
   logOut() {
     this.authService.logOut();
@@ -34,12 +45,13 @@ export class TeacherMainComponent implements OnInit {
   getAllDisableStudents(user: User) {
     this.groupService.getAllDisableStudent(user).subscribe(resp => {
       this.disableGroups = resp;
+      this.emptyMessage = 'Не підтверджених студентів не має';
       console.log(this.disableGroups);
     });
   }
 
   acceptStudent(disableStudent: DataDisabledUser) {
-    this.groupService.accessGroup(disableStudent).subscribe(data =>  this.getAllDisableStudents(this.user));
+    this.groupService.accessGroup(disableStudent).subscribe(data => this.getAllDisableStudents(this.user));
   }
 
   denied(disableStudent: DataDisabledUser) {

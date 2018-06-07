@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {Template} from '../../../model/Template';
 import {TemplateService} from '../../../services/template.service';
 import {User} from '../../../model/User';
-import {Observable} from 'rxjs/Observable';
-import {map, startWith} from 'rxjs/operators';
+import {TestService} from '../../../services/test.service';
+import {UUID} from 'angular2-uuid';
 
 export interface StateGroup {
   letter: string;
@@ -17,84 +17,24 @@ export interface StateGroup {
   styleUrls: ['./add-test.component.css']
 })
 export class AddTestComponent implements OnInit {
-  stateForm: FormGroup = this.fb.group({
-    stateGroup: '',
-  });
-  stateGroups: StateGroup[] = [{
-    letter: '1',
-    names: ['A', 'B']
-  }, {
-    letter: 'C',
-    names: ['California', 'Colorado', 'Connecticut']
-  }, {
-    letter: 'D',
-    names: ['Delaware']
-  }, {
-    letter: 'F',
-    names: ['Florida']
-  }, {
-    letter: 'G',
-    names: ['Georgia']
-  }, {
-    letter: 'H',
-    names: ['Hawaii']
-  }, {
-    letter: 'I',
-    names: ['Idaho', 'Illinois', 'Indiana', 'Iowa']
-  }, {
-    letter: 'K',
-    names: ['Kansas', 'Kentucky']
-  }, {
-    letter: 'L',
-    names: ['Louisiana']
-  }, {
-    letter: 'M',
-    names: ['Maine', 'Maryland', 'Massachusetts', 'Michigan',
-      'Minnesota', 'Mississippi', 'Missouri', 'Montana']
-  }, {
-    letter: 'N',
-    names: ['Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
-      'New Mexico', 'New York', 'North Carolina', 'North Dakota']
-  }, {
-    letter: 'O',
-    names: ['Ohio', 'Oklahoma', 'Oregon']
-  }, {
-    letter: 'P',
-    names: ['Pennsylvania']
-  }, {
-    letter: 'R',
-    names: ['Rhode Island']
-  }, {
-    letter: 'S',
-    names: ['South Carolina', 'South Dakota']
-  }, {
-    letter: 'T',
-    names: ['Tennessee', 'Texas']
-  }, {
-    letter: 'U',
-    names: ['Utah']
-  }, {
-    letter: 'V',
-    names: ['Vermont', 'Virginia']
-  }, {
-    letter: 'W',
-    names: ['Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
-  }];
 
-  stateGroupOptions: Observable<StateGroup[]>;
+  toppings = new FormControl();
+  templates: any;
+  selectedTemplate = [];
+  selectedTemplates = [];
+  enterName: string;
+  selectedTemplateToDel: Template;
+
 
   constructor(public templService: TemplateService,
               private user: User,
               public newTemplate: Template,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private testService: TestService) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   maskAnswer = [/[А-Д]/];
-
-
-  selectedNum: any;
-  templates: any;
 
 
   NameFormControl = new FormControl('', [
@@ -111,27 +51,21 @@ export class AddTestComponent implements OnInit {
 
 
   ngOnInit() {
-    this.stateGroupOptions = this.stateForm.get('stateGroup')!.valueChanges
-      .pipe(
-        startWith(''),
-        map(val => this.filterGroup(val))
-      );
     this.getTemplates();
   }
 
-  filterGroup(val: string): StateGroup[] {
-    if (val) {
-      return this.stateGroups
-        .map(group => ({letter: group.letter, names: this._filter(group.names, val)}))
-        .filter(group => group.names.length > 0);
+  replaceTemplate() {
+    for (const template of this.templates) {
+      if (this.selectedTemplate[this.selectedTemplate.length - 1].questionNum === template.questionNum) {
+        this.templates.splice(this.templates.indexOf(template), 1);
+      }
     }
-
-    return this.stateGroups;
+    this.selectedTemplates.push(this.selectedTemplate[this.selectedTemplate.length - 1]);
   }
 
-  private _filter(opt: string[], val: string) {
-    const filterValue = val.toLowerCase();
-    return opt.filter(item => item.toLowerCase().startsWith(filterValue));
+  deleteTemplate() {
+    console.log(this.selectedTemplateToDel);
+    this.templService.deleteTemplate(this.selectedTemplateToDel).subscribe(data => this.getTemplates());
   }
 
   addTemplate() {
@@ -147,7 +81,17 @@ export class AddTestComponent implements OnInit {
     });
   }
 
+  addTest() {
+    const idTest = UUID.UUID();
+    for (const template of this.selectedTemplates) {
+      this.testService.addTest(idTest, this.enterName, template).subscribe(data => {
+        console.log(data);
+      });
+    }
 
+  }
 }
+
+
 
 

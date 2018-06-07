@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../model/User';
 import {Router} from '@angular/router';
 import {AccountService} from '../../services/account.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-singup-form',
@@ -21,7 +22,7 @@ export class SingupFormComponent implements OnInit {
   maskStud = [/[А-Я]/, /[А-Я]/, '-', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
   errorMessage: string;
 
-  constructor(private _formBuilder: FormBuilder, public accountService: AccountService, public router: Router) {
+  constructor(private _formBuilder: FormBuilder, public accountService: AccountService, public router: Router, public snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -46,9 +47,15 @@ export class SingupFormComponent implements OnInit {
 
   singUp() {
     this.accountService.createAccount(this.user).subscribe(data => {
+      this.snackBar.open('Ви успішно зареєструвались', 'Ок', {
+        duration: 2000
+      });
         return this.router.navigate(['/login']);
       }, err => {
         console.log(err);
+        this.snackBar.open('Такий хлопчина тут вже є', 'Ок', {
+          duration: 2000
+        });
         this.errorMessage = 'username already exist';
       }
     );
